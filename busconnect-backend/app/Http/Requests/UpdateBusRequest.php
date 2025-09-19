@@ -6,23 +6,20 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateBusRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
+        // The route model binding will give you the Bus instance
+        $busId = $this->route('bus')?->id ?? $this->route('bus');
+
         return [
-            //
+            'name'         => 'sometimes|required|string|max:255',
+            'plate_number' => 'sometimes|required|string|max:50|unique:buses,plate_number,' . $busId,
+            'capacity'     => 'sometimes|required|integer|min:1|max:1000',
         ];
     }
 }

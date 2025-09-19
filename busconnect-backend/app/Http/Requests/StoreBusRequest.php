@@ -6,23 +6,18 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreBusRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
-        return false;
+        // Allow all for now; handle via middleware/roles separately
+        return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
-            //
+            'name'         => 'required|string|max:255',
+            'plate_number' => 'required|string|max:50|unique:buses,plate_number',
+            'capacity'     => 'required|integer|min:1|max:1000',
         ];
     }
 }
