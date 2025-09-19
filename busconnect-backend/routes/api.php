@@ -9,7 +9,11 @@ use App\Http\Controllers\BookingController;
 // Auth
 Route::post('/register',[AuthController::class,'register']);
 Route::post('/login',[AuthController::class,'login']);
-Route::middleware(['jwt.auth'])->get('/me',[AuthController::class,'me']);
+Route::middleware(['jwt.auth'])->group(function () {
+    Route::get('/me',[AuthController::class,'me']);
+    Route::post('/logout',[AuthController::class,'logout']);
+    Route::post('/refresh',[AuthController::class,'refresh']);
+});
 
 // Admin-only CRUD
 Route::middleware(['jwt.auth','admin'])->group(function(){
