@@ -109,34 +109,6 @@ return [
     | confirmation screen. By default, the timeout lasts for three hours.
     |
     */
-    <?php
-
-    return [
-        'defaults' => [
-            'guard' => 'web',
-            'passwords' => 'users',
-        ],
-
-        'guards' => [
-            'web' => [
-                'driver' => 'session',
-                'provider' => 'users',
-            ],
-
-            'api' => [
-                'driver' => 'jwt', // IMPORTANT for tymon/jwt-auth
-                'provider' => 'users',
-            ],
-        ],
-
-        'providers' => [
-            'users' => [
-                'driver' => 'eloquent',
-                'model' => App\Models\User::class,
-            ],
-        ],
-    ];
-
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
 
