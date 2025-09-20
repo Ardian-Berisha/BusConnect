@@ -25,10 +25,10 @@ class BookingController extends Controller
         $data['user_id'] = auth('api')->id();
 
         // Optional: prevent double booking of seat
-        // if (Booking::where('bus_route_id',$data['bus_route_id'])
-        //     ->where('seat_number',$data['seat_number'])->exists()) {
-        //     return response()->json(['message'=>'Seat already booked'],422);
-        // }
+         if (Booking::where('bus_route_id',$data['bus_route_id'])
+             ->where('seat_number',$data['seat_number'])->exists()) {
+             return response()->json(['message'=>'Seat already booked'],422);
+         }
 
         $booking = Booking::create($data);
         return response()->json($booking->load('busRoute.bus'),201);

@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BusController;
 use App\Http\Controllers\BusRouteController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\UserController;
 
 // Auth
 Route::post('/register',[AuthController::class,'register']);
@@ -25,3 +26,11 @@ Route::middleware(['jwt.auth','admin'])->group(function(){
 Route::middleware(['jwt.auth'])->group(function(){
     Route::apiResource('bookings',BookingController::class);
 });
+
+// Admin-only CRUD
+Route::middleware(['jwt.auth','admin'])->group(function(){
+    Route::apiResource('buses',BusController::class);
+    Route::apiResource('routes',BusRouteController::class);
+    Route::apiResource('users',UserController::class); // <— add this line
+});
+
