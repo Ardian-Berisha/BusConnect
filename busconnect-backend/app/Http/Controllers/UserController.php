@@ -61,4 +61,30 @@ class UserController extends Controller
         $user->delete();
         return response()->json(['message'=>'Deleted']);
     }
+    public function updateSelf(Request $request)
+    {
+        $user = auth('api')->user();
+        $data = $request->validate([
+            'name'=>'sometimes|required|string|max:255',
+            'email'=>'sometimes|required|email|unique:users,email,'.$user->id,
+            'password'=>'sometimes|nullable|string|min:6',
+        ]);
+
+        if(isset($data['password'])){
+            $data['password'] = Hash::make($data['password']);
+        }
+
+        $user->update($data);
+
+        return response()->json($user);
+    }
+
+    // NEW: Self-service delete
+    public function destroySelf()
+    {
+        $user = auth('api')->user();
+        $user->delete();
+        return response()->json(['message'=>'Account deleted']);
+    }
+
 }

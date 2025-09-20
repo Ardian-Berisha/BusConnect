@@ -14,6 +14,10 @@ Route::middleware(['jwt.auth'])->group(function () {
     Route::get('/me',[AuthController::class,'me']);
     Route::post('/logout',[AuthController::class,'logout']);
     Route::post('/refresh',[AuthController::class,'refresh']);
+
+    // Self-service user update/delete
+    Route::put('/me',[UserController::class,'updateSelf']);
+    Route::delete('/me',[UserController::class,'destroySelf']);
 });
 
 // Admin-only CRUD
