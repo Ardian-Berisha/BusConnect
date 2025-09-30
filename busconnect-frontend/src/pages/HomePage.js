@@ -1,8 +1,12 @@
 // src/pages/HomePage.jsx
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchRoutes } from '../store/routeSlice';
+import { fetchRoutes } from '../features/routeSlice';
 import { Link } from 'react-router-dom';
+import { formatDate } from '../components/dateFormat'; // at top
+
+
+
 
 export default function HomePage() {
   const dispatch = useDispatch();
@@ -27,7 +31,7 @@ export default function HomePage() {
                 <h5 className="card-title">{r.origin} → {r.destination}</h5>
                 <p className="card-text text-muted mb-1">Bus: {r.bus?.name}</p>
                 <p className="card-text mb-1"><strong>${r.price}</strong></p>
-                <p className="card-text small text-muted">Departs: {r.departure_time}</p>
+                <p className="card-text small text-muted">Departs: {formatDate(r.departure_time)}</p>
                 <Link className="btn btn-primary btn-sm" to={`/routes/${r.id}`}>View</Link>
               </div>
             </div>

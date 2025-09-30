@@ -1,8 +1,8 @@
-// src/api/axiosClient.js
+// src/api/AxiosClient.js
 import axios from 'axios';
 
 const axiosClient = axios.create({
-  baseURL: 'http://localhost:8000/api', // Adjust for your Laravel backend
+  baseURL: 'http://localhost:9000/api', // Adjust for your Laravel backend
 });
 
 // Attach token from localStorage to every request
@@ -14,4 +14,4 @@ axiosClient.interceptors.request.use(config => {
   return config;
 });
 
-export default AxiosClient;
+export default axiosClient; // <-- lowercase, same as variable name

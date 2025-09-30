@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { logoutServer } from '../store/authSlice';
+import { logoutServer } from '../features/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 

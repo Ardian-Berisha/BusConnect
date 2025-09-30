@@ -1,7 +1,7 @@
 // src/pages/admin/BookingsAdminPage.jsx
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchBookings, deleteBooking } from '../../store/bookingSlice';
+import { fetchBookings, deleteBooking } from '../../features/bookingSlice';
 
 export default function BookingsAdminPage() {
   const dispatch=useDispatch();

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { register as registerThunk } from '../store/authSlice';
+import { register as registerThunk } from '../features/authSlice';
 import { Link, useNavigate } from 'react-router-dom';
 
 export default function RegisterPage() {
@@ -8,7 +8,7 @@ export default function RegisterPage() {
   const navigate = useNavigate();
   const { user, status, error } = useSelector(s => s.auth);
 
-  const [form, setForm] = useState({ name: '', email: '', password: '', role: 'user' });
+  const [form, setForm] = useState({ name: '', email: '', password: '' });
   const [touched, setTouched] = useState({});
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export default function RegisterPage() {
     e.preventDefault();
     setTouched({ name: true, email: true, password: true });
     if (invalidName || invalidEmail || invalidPassword) return;
-    dispatch(registerThunk({ name: form.name.trim(), email: form.email, password: form.password, role: form.role }));
+    dispatch(registerThunk({ name: form.name.trim(), email: form.email, password: form.password }));
   };
 
   return (
@@ -89,20 +89,6 @@ export default function RegisterPage() {
                   minLength={6}
                 />
                 {invalidPassword && <div className="invalid-feedback">Min length 6.</div>}
-              </div>
-
-              <div className="col-12">
-                <label className="form-label">Role</label>
-                <select
-                  name="role"
-                  className="form-select"
-                  value={form.role}
-                  onChange={onChange}
-                >
-                  <option value="user">User</option>
-                  <option value="admin">Admin</option>
-                </select>
-                <div className="form-text">Keep “User” unless you will manage buses and routes.</div>
               </div>
             </div>
 

@@ -1,7 +1,7 @@
 // src/pages/admin/UsersPage.jsx
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUsers, createUser, updateUser, deleteUser } from '../../store/userSlice';
+import { fetchUsers, createUser, updateUser, deleteUser } from '../../features/userSlice';
 
 export default function UsersPage() {
   const dispatch = useDispatch();

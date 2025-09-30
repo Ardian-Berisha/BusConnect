@@ -7,34 +7,55 @@ use App\Http\Controllers\BusRouteController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\UserController;
 
+/*
+|--------------------------------------------------------------------------
+| Public Routes (no token needed)
+|--------------------------------------------------------------------------
+*/
 // Auth
-Route::post('/register',[AuthController::class,'register']);
-Route::post('/login',[AuthController::class,'login']);
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+
+// Public read-only buses & routes
+Route::get('/buses', [BusController::class, 'index']);
+Route::get('/buses/{bus}', [BusController::class, 'show']);
+Route::get('/routes', [BusRouteController::class, 'index']);
+Route::get('/routes/{route}', [BusRouteController::class, 'show']);
+
+/*
+|--------------------------------------------------------------------------
+| Authenticated Routes (token required)
+|--------------------------------------------------------------------------
+*/
 Route::middleware(['jwt.auth'])->group(function () {
-    Route::get('/me',[AuthController::class,'me']);
-    Route::post('/logout',[AuthController::class,'logout']);
-    Route::post('/refresh',[AuthController::class,'refresh']);
+    // Current user info + logout + refresh token
+    Route::get('/me', [AuthController::class, 'me']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/refresh', [AuthController::class, 'refresh']);
 
-    // Self-service user update/delete
-    Route::put('/me',[UserController::class,'updateSelf']);
-    Route::delete('/me',[UserController::class,'destroySelf']);
+    // Self-service update/delete for current user
+    Route::put('/me', [UserController::class, 'updateSelf']);
+    Route::delete('/me', [UserController::class, 'destroySelf']);
+
+    // Authenticated user bookings (can view/create their own bookings)
+    Route::apiResource('bookings', BookingController::class);
 });
 
-// Admin-only CRUD
-Route::middleware(['jwt.auth','admin'])->group(function(){
-    Route::apiResource('buses',BusController::class);
-    Route::apiResource('routes',BusRouteController::class);
-});
+/*
+|--------------------------------------------------------------------------
+| Admin Routes (token + admin middleware required)
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['jwt.auth', 'admin'])->group(function () {
+    // Full CRUD for buses and routes (write endpoints)
+    Route::post('/buses', [BusController::class, 'store']);
+    Route::put('/buses/{bus}', [BusController::class, 'update']);
+    Route::delete('/buses/{bus}', [BusController::class, 'destroy']);
 
-// Authenticated user bookings
-Route::middleware(['jwt.auth'])->group(function(){
-    Route::apiResource('bookings',BookingController::class);
-});
+    Route::post('/routes', [BusRouteController::class, 'store']);
+    Route::put('/routes/{route}', [BusRouteController::class, 'update']);
+    Route::delete('/routes/{route}', [BusRouteController::class, 'destroy']);
 
-// Admin-only CRUD
-Route::middleware(['jwt.auth','admin'])->group(function(){
-    Route::apiResource('buses',BusController::class);
-    Route::apiResource('routes',BusRouteController::class);
-    Route::apiResource('users',UserController::class); // <— add this line
+    // Admin access to all users
+    Route::apiResource('users', UserController::class);
 });
-

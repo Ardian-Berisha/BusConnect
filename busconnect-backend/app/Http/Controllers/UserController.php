@@ -10,7 +10,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        // List all users (admin-only)
+        // Admin only
         return response()->json(User::all());
     }
 
@@ -21,6 +21,7 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        // Admin can create user and set role
         $data = $request->validate([
             'name'=>'required|string|max:255',
             'email'=>'required|email|unique:users,email',
@@ -40,6 +41,7 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
+        // Admin can update including role
         $data = $request->validate([
             'name'=>'sometimes|required|string|max:255',
             'email'=>'sometimes|required|email|unique:users,email,'.$user->id,
@@ -61,9 +63,11 @@ class UserController extends Controller
         $user->delete();
         return response()->json(['message'=>'Deleted']);
     }
+
     public function updateSelf(Request $request)
     {
         $user = auth('api')->user();
+        // No role field here
         $data = $request->validate([
             'name'=>'sometimes|required|string|max:255',
             'email'=>'sometimes|required|email|unique:users,email,'.$user->id,
@@ -79,12 +83,10 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    // NEW: Self-service delete
     public function destroySelf()
     {
         $user = auth('api')->user();
         $user->delete();
         return response()->json(['message'=>'Account deleted']);
     }
-
 }

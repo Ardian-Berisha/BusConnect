@@ -1,6 +1,6 @@
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { logoutServer } from '../store/authSlice';
+import { logoutServer } from '../features/authSlice';
 import { useState } from 'react';
 
 export default function Navbar() {

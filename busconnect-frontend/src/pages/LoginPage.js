@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../store/authSlice';
+import { login } from '../features/authSlice';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 export default function LoginPage() {

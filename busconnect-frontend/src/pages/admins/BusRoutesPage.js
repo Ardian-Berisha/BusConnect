@@ -1,8 +1,12 @@
 // src/pages/admin/BusRoutesPage.jsx
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchRoutes, createRoute, updateRoute, deleteRoute } from '../../store/routeSlice';
-import { fetchBuses } from '../../store/busSlice';
+import { fetchRoutes, createRoute, updateRoute, deleteRoute } from '../../features/routeSlice';
+import { fetchBuses } from '../../features/busSlice';
+import { formatDate } from '../../components/dateFormat'; // at top
+
+
+
 
 export default function BusRoutesPage() {
   const dispatch=useDispatch();
@@ -61,8 +65,8 @@ export default function BusRoutesPage() {
               <td>{r.bus?.name||r.bus_id}</td>
               <td>{r.origin}</td>
               <td>{r.destination}</td>
-              <td>{r.departure_time}</td>
-              <td>{r.arrival_time}</td>
+              <td>{formatDate(r.departure_time)}</td>
+              <td>{formatDate(r.arrival_time)}</td>
               <td>{r.price}</td>
               <td>
                 <button className="btn btn-sm btn-outline-primary me-1" onClick={()=>editRow(r)}>Edit</button>

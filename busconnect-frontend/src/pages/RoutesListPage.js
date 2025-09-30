@@ -1,8 +1,12 @@
 // src/pages/RoutesListPage.jsx
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchRoutes } from '../store/routeSlice';
+import { fetchRoutes } from '../features/routeSlice';
 import { Link } from 'react-router-dom';
+import { formatDate } from '../components/dateFormat'; // at top
+
+
+
 
 export default function RoutesListPage() {
   const dispatch = useDispatch();
@@ -30,8 +34,8 @@ export default function RoutesListPage() {
               <td>{r.bus?.name}</td>
               <td>{r.origin}</td>
               <td>{r.destination}</td>
-              <td>{r.departure_time}</td>
-              <td>{r.arrival_time}</td>
+              <td>{formatDate(r.departure_time)}</td>
+              <td>{formatDate(r.arrival_time)}</td>
               <td>${r.price}</td>
               <td><Link className="btn btn-sm btn-outline-primary" to={`/routes/${r.id}`}>View</Link></td>
             </tr>

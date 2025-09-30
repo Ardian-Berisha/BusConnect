@@ -1,7 +1,7 @@
 // src/pages/admin/BusesPage.jsx
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchBuses, createBus, updateBus, deleteBus } from '../../store/busSlice';
+import { fetchBuses, createBus, updateBus, deleteBus } from '../../features/busSlice';
 
 export default function BusesPage() {
   const dispatch = useDispatch();
